@@ -1,0 +1,9 @@
+<!-- Dashboard -->
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+  <h2>Tableau de bord</h2>
+  <p>Bienvenue {{ session.user_name }} !</p>
+  <a class="btn btn-primary" href="{{ url_for('courses') }}">Voir les cours</a>
+  <a class="btn btn-success" href="{{ url_for('sessions') }}">Voir les sessions de révision</a>
+{% endblock %}

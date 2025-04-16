@@ -1,0 +1,28 @@
+5 Key Words:
+
+CP/M
+Operating System
+Digital Research
+BIOS
+Intel
+
+
+Gary Kildall and the 40th Anniversary of the Birth of the PC Operating System
+
+The article commemorates the 40th anniversary of Gary Kildall’s creation of CP/M (Control Program for Microcomputers), one of the first operating systems for personal computers. In 1974, Kildall, a former U.S. Navy officer and computer consultant, developed CP/M, which allowed computers to boot from floppy disks—an innovative achievement at the time. CP/M was designed to work with Intel’s microprocessors.
+
+Before CP/M, computers were often programmed using low-level languages that were specific to each machine’s architecture. Kildall’s creation allowed for a level of hardware abstraction, enabling the same operating system to run on different types of machines. This was a game-changer for personal computing because it made the use of software more accessible and flexible, without being tied to specific hardware configurations.
+
+As CP/M gained popularity, it was licensed to various personal computer manufacturers, and its adoption was pivotal in the growth of the personal computer market. However, Kildall’s success was tempered by missed opportunities. One of the most notable was when IBM chose not to partner with him for their first personal computer IBM initially considered CP/M as the operating system for its first personal computer. However, Gary Kildall, through his company Digital Research, was unwilling to grant IBM the type of open license they desired. He wanted to maintain more control over the distribution of CP/M, which made IBM hesitant to proceed. A crucial moment in the negotiations was Kildall’s failure to meet with IBM representatives. He either was unavailable or did not attend a key meeting due to a scheduling conflict or lack of preparation. Frustrated by this, IBM turned to another option and chose MS-DOS instead, an operating system based on CP/M, which was developed by Microsoft. This decision led to Microsoft’s dominance in the operating system market, leaving Kildall and his company, Digital Research, overshadowed.
+
+Beyond CP/M, Kildall also developed the PL/M programming language, which was specifically designed for Intel’s processors, and introduced important concepts like the BIOS (Basic Input/Output System), which facilitated communication between the computer’s hardware and software.
+
+Despite his significant contributions to the field, Kildall’s work did not achieve the same recognition as other pioneers in computing. The article emphasizes how his innovations laid the foundation for the software industry but also highlights the missed opportunities that prevented him from becoming a household name in the tech world.
+
+
+QUESTION
+"How might the history of personal computing have unfolded differently if Gary Kildall had partnered with IBM for their first PC, and what impact would that have had on the software industry today?"
+
+ANSWER
+I think Microsoft’s rise could have been delayed or altered:
+if Kildall had partnered with IBM, CP/M might have dominated the PC market, potentially leading to a very different software ecosystem. Microsoft’s rise to dominance could have been delayed, and Digital Research may have been a much more influential company in shaping the future of personal computing. The impact on the software industry today would have been immense I can't even imagine to what extent.

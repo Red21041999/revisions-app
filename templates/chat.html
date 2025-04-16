@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Chat - Session {{ session_id }}{% endblock %}
+
+{% block content %}
+  <h2>Chat de la session {{ session_id }}</h2>
+
+  <!-- Zone d'affichage des messages -->
+  <div class="mb-3" style="height:300px; overflow-y:scroll; border:1px solid #ccc; padding:10px;">
+    {% for msg in messages %}
+      <p><strong>{{ msg.name }}:</strong> {{ msg.message }} <small>({{ msg.timestamp }})</small></p>
+    {% endfor %}
+  </div>
+
+  <!-- Formulaire d'envoi de message -->
+  <form method="post">
+    <div class="mb-3">
+      <textarea class="form-control" name="message" placeholder="Écrire un message" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+  </form>
+
+  <a class="btn btn-secondary mt-3" href="{{ url_for('sessions') }}">Retour aux sessions</a>
+{% endblock %}

@@ -1,0 +1,23 @@
+<!-- Upload course -->
+{% extends "base.html" %}
+{% block title %}Ajouter un cours{% endblock %}
+{% block content %}
+  <h2>Ajouter un cours</h2>
+  <!-- Note : on ajoute enctype="multipart/form-data" pour permettre l'upload de fichiers -->
+  <form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label class="form-label">Titre</label>
+      <input class="form-control" name="title" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <textarea class="form-control" name="description" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Fichier à uploader</label>
+      <input class="form-control" type="file" name="file">
+    </div>
+    <button class="btn btn-primary" type="submit">Ajouter</button>
+  </form>
+{% endblock %}
+

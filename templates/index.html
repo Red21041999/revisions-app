@@ -1,0 +1,15 @@
+<!-- Page d'accueil -->
+{% extends "base.html" %}
+{% block title %}Accueil{% endblock %}
+{% block content %}
+  <div class="text-center">
+    <h1>Bienvenue sur RévisionApp</h1>
+    <p>Échangez vos cours et organisez des sessions de révision avec d'autres étudiants.</p>
+    {% if not session.user_name %}
+      <a class="btn btn-primary" href="{{ url_for('login') }}">Connexion</a>
+      <a class="btn btn-secondary" href="{{ url_for('register') }}">Inscription</a>
+    {% else %}
+      <a class="btn btn-success" href="{{ url_for('dashboard') }}">Accéder au tableau de bord</a>
+    {% endif %}
+  </div>
+{% endblock %}

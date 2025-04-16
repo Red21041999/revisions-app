@@ -1,0 +1,10 @@
+<!-- Erreur 401 -->
+{% extends "base.html" %}
+{% block title %}Erreur 401{% endblock %}
+{% block content %}
+  <div class="alert alert-danger">
+    <h4>Erreur 401 - Non autorisé</h4>
+    <p>Vous devez être connecté pour accéder à cette page.</p>
+    <a class="btn btn-primary" href="{{ url_for('login') }}">Connexion</a>
+  </div>
+{% endblock %}
