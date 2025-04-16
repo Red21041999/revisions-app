@@ -1,11 +1,10 @@
-
 import sqlite3
-from werkzeug.security import generate_password_hash
 
+# Connexion à la base de données
 conn = sqlite3.connect('database.db')
 c = conn.cursor()
 
-# Création des tables
+# Création de la table des utilisateurs
 c.execute('''
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -14,6 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
 )
 ''')
 
+# Table des cours partagés
 c.execute('''
 CREATE TABLE IF NOT EXISTS courses (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS courses (
 )
 ''')
 
+# Table des sessions de révision
 c.execute('''
 CREATE TABLE IF NOT EXISTS study_sessions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -36,17 +37,19 @@ CREATE TABLE IF NOT EXISTS study_sessions (
 )
 ''')
 
+# Table des participations aux sessions (avec contrainte pour éviter les doublons)
 c.execute('''
 CREATE TABLE IF NOT EXISTS participations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER,
-    session_id INTEGER,
+    user_id INTEGER NOT NULL,
+    session_id INTEGER NOT NULL,
     FOREIGN KEY(user_id) REFERENCES users(id),
-    FOREIGN KEY(session_id) REFERENCES study_sessions(id)
+    FOREIGN KEY(session_id) REFERENCES study_sessions(id),
+    UNIQUE(user_id, session_id)
 )
 ''')
 
-# Table de chat dans les sessions
+# Table des messages de chat liés à une session
 c.execute('''
 CREATE TABLE IF NOT EXISTS chat_messages (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -59,11 +62,8 @@ CREATE TABLE IF NOT EXISTS chat_messages (
 )
 ''')
 
-
-
-# Ajout d'un utilisateur de test
-hashed_password = generate_password_hash("azerty")
-c.execute("INSERT OR IGNORE INTO users (name, password) VALUES (?, ?)", ("admin", hashed_password))
-
+# Enregistrement et fermeture
 conn.commit()
 conn.close()
+
+

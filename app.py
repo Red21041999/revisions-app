@@ -120,8 +120,9 @@ def delete_course(course_id):
 @app.route('/sessions')
 @login_required
 def sessions():
-    sessions = model.get_all_sessions()
-    return render_template('sessions.html', sessions=sessions)
+    # On récupère toutes les sessions avec leur liste de participants
+    sessions_list = model.get_all_sessions_with_participants()
+    return render_template('sessions.html', sessions=sessions_list)
 
 @app.route('/create_session', methods=['GET', 'POST'])
 @login_required
@@ -139,7 +140,8 @@ def create_session():
 @login_required
 def join_session():
     session_id = request.form['session_id']
-    model.add_participation(session['user_id'], session_id)
+    user_id = session['user_id']  # on récupère l'utilisateur connecté
+    model.add_participation(user_id, session_id)
     flash("Inscription à la session réussie.")
     return redirect(url_for('sessions'))
 
@@ -153,14 +155,40 @@ def delete_session(session_id):
 @app.route('/session/<int:session_id>/chat', methods=['GET', 'POST'])
 @login_required
 def session_chat(session_id):
+    user_id = session['user_id']
+
+    # Vérifier si l'utilisateur est déjà inscrit à la session
+    if not model.user_is_participant(user_id, session_id):
+        flash("Vous n'êtes pas inscrit à cette session, accès refusé.")
+        return redirect(url_for('sessions'))  # ou page d'erreur si tu préfères
+
     if request.method == 'POST':
         message = request.form['message']
         if message.strip() != "":
-            model.add_chat_message(session_id, session['user_id'], message)
+            model.add_chat_message(session_id, user_id, message)
         return redirect(url_for('session_chat', session_id=session_id))
 
     messages = model.get_chat_messages(session_id)
     return render_template('chat.html', session_id=session_id, messages=messages)
+
+@app.route('/add_chat_message', methods=['POST'])
+@login_required
+def add_chat_message():
+    session_id = int(request.form['session_id'])  # cast en int, plus sûr
+    content = request.form['content']
+    user_id = session['user_id']
+
+    # Vérifier que l'utilisateur est inscrit
+    if not model.user_is_participant(user_id, session_id):
+        flash("Vous n'êtes pas inscrit à cette session.")
+        return redirect(url_for('sessions'))
+
+    # ✅ Bon ordre des arguments
+    model.add_chat_message(session_id, user_id, content)
+    return redirect(url_for('session_chat', session_id=session_id))
+
+
+
 
 # -----------------------
 # Gestion des erreurs

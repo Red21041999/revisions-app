@@ -1,25 +1,59 @@
 {% extends "base.html" %}
 {% block title %}Sessions de révision{% endblock %}
 {% block content %}
-  <h2>Sessions de révision</h2>
-  <a class="btn btn-outline-success mb-3" href="{{ url_for('create_session') }}">Créer une session</a>
-  {% if sessions %}
-    <div class="row">
-      {% for session_item in sessions %}
-        <div class="col-md-4 mb-3">
-          <div class="card h-100">
-            <div class="card-body">
-              <h5 class="card-title">{{ session_item.subject }}</h5>
-              <p>Date : {{ session_item.date }}</p>
-              <p>Heure : {{ session_item.time }}</p>
-              <!-- Lien pour accéder au chat -->
-              <a class="btn btn-info btn-sm" href="{{ url_for('session_chat', session_id=session_item.id) }}">Accéder au chat</a>
-            </div>
+<h2>Sessions de révision</h2>
+
+{% if sessions %}
+  <div class="row">
+    {% for session_item in sessions %}
+      <div class="col-md-4 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ session_item.subject }}</h5>
+            <p><strong>Date :</strong> {{ session_item.date }}</p>
+            <p><strong>Heure :</strong> {{ session_item.time }}</p>
+
+            <hr>
+            <h6>Participants</h6>
+            {% if session_item.participants %}
+              <ul>
+                {% for participant in session_item.participants %}
+                  <li>{{ participant | safe }}</li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p>Aucun participant pour le moment.</p>
+            {% endif %}
+
+            <!-- Affichage conditionnel des actions -->
+            {% if session.get('user_name') in session_item.participants %}
+              <a class="btn btn-success mt-2" href="{{ url_for('session_chat', session_id=session_item.id) }}">
+                Accéder au chat
+              </a>
+            {% else %}
+              <form action="{{ url_for('join_session') }}" method="POST" class="mt-2">
+                <input type="hidden" name="session_id" value="{{ session_item.id }}">
+                <button type="submit" class="btn btn-primary">Rejoindre la session</button>
+              </form>
+            {% endif %}
+
+            <!-- Bouton Supprimer (visible uniquement pour le créateur) -->
+            {% if session_item.creator_id == session.user_id %}
+              <form action="{{ url_for('delete_session', session_id=session_item.id) }}" method="POST" class="mt-2"
+                    onsubmit="return confirm('Confirmez la suppression de cette session ?');">
+                <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+              </form>
+            {% endif %}
+
           </div>
         </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>Aucune session programmée.</p>
-  {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>Aucune session programmée.</p>
+{% endif %}
+
+<a class="btn btn-secondary mt-3" href="{{ url_for('create_session') }}">Créer une session</a>
 {% endblock %}
+

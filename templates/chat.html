@@ -1,23 +1,33 @@
 {% extends "base.html" %}
-{% block title %}Chat - Session {{ session_id }}{% endblock %}
-
+{% block title %}Chat de la session{% endblock %}
 {% block content %}
-  <h2>Chat de la session {{ session_id }}</h2>
 
-  <!-- Zone d'affichage des messages -->
-  <div class="mb-3" style="height:300px; overflow-y:scroll; border:1px solid #ccc; padding:10px;">
-    {% for msg in messages %}
-      <p><strong>{{ msg.name }}:</strong> {{ msg.message }} <small>({{ msg.timestamp }})</small></p>
-    {% endfor %}
-  </div>
+<h2>Chat pour la session n°{{ session_id }}</h2>
 
-  <!-- Formulaire d'envoi de message -->
-  <form method="post">
-    <div class="mb-3">
-      <textarea class="form-control" name="message" placeholder="Écrire un message" required></textarea>
+<!-- Affiche les messages -->
+{% if messages %}
+  {% for msg in messages %}
+    <div class="card mb-2">
+      <div class="card-body">
+        <strong>{{ msg.user_name }}</strong> :
+        <p>{{ msg.content }}</p>
+        <small>{{ msg.created_at }}</small>
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary">Envoyer</button>
-  </form>
+  {% endfor %}
+{% else %}
+  <p>Aucun message pour le moment.</p>
+{% endif %}
 
-  <a class="btn btn-secondary mt-3" href="{{ url_for('sessions') }}">Retour aux sessions</a>
+<!-- Formulaire d’envoi -->
+<form action="{{ url_for('add_chat_message') }}" method="POST" class="mt-4">
+  <input type="hidden" name="session_id" value="{{ session_id }}">
+  <div class="mb-3">
+    <label for="content" class="form-label">Message :</label>
+    <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Envoyer</button>
+</form>
+
 {% endblock %}
+
